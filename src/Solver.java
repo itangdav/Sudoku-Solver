@@ -18,11 +18,17 @@ public class Solver {
 
 		//If a guess is necessary
 		boolean guess = true;
-		if(singleInRow()){
+		if(this.singleInRow()){
+			currBoard.printBoard();
+		}
+		else if(this.singleInColumn()){
+			currBoard.printBoard();
+		}
+		else if(this.singleInThreeByThree()){
 			currBoard.printBoard();
 		}
 		else{
-			System.out.println("nope");
+			System.out.println("Done");
 		}
 		
 	}
@@ -40,6 +46,10 @@ public class Solver {
 			}
 		}
 	}
+	
+	//*****************************
+	//ALGORITHMS BEGIN
+	//*****************************
 	
 	//Check if only single place number can go in row, return true if true
 	private boolean singleInRow(){
@@ -59,6 +69,50 @@ public class Solver {
 		return false; 
 	}
 	
+	//Check for single in Column
+	private boolean singleInColumn(){
+		for(int i=0;i<9;i++){
+			for(int j=1;j<10;j++){
+				if(currBoard.columns[i][j]==1){
+					for(int x=0;x<9;x++){
+						if(currBoard.grid[x][i].getOptions().contains(j)){
+							currBoard.setSquare(x, i, j);
+							return true;
+						}
+						
+					}
+				}
+			}
+		}
+		return false; 
+	}
+	
+	//Check for single in Three by Three
+	private boolean singleInThreeByThree(){
+		for(int i=0;i<9;i++){
+			for(int j=1;j<10;j++){
+				if(currBoard.threeByThrees[i][j]==1){
+					for(int x=(i/3)*3;x<(i/3)*3+3;x++){
+						for(int y=(i%3)*3; y<(i%3)*3+3; y++){
+							if(currBoard.grid[x][y].getOptions().contains(j)){
+								currBoard.setSquare(x, y, j);
+								return true;
+							}
+						}
+						
+						
+					}
+				}
+			}
+		}
+		return false; 
+	}
+	
+	//*****************************
+	//ALGORITHMS STOP
+	//*****************************
+	
+	//testing method
 	public static void main(String[] args) throws CloneNotSupportedException{
 		
 		
