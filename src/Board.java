@@ -34,6 +34,27 @@ public class Board implements Cloneable{
 		}
 	}
 	
+	//Initializes the Board to have all squares be the ones in the array, with 0 being empty squares
+	public Board(int[][]nums){
+		for(int i=0;i<9;i++){
+			for(int j=0;j<9;j++){
+				grid[i][j]=new Square();
+			}
+		}
+		for(int i=0;i<9;i++){
+			Arrays.fill(rows[i], 9);
+			Arrays.fill(columns[i], 9);
+			Arrays.fill(threeByThrees[i], 9);
+		}
+		for(int i=0;i<9;i++){
+			for(int j=0;j<9;j++){
+				if(nums[i][j]!=0){
+					this.setSquare(i, j, nums[i][j]);
+				}
+			}
+		}
+	}
+	
 	//Creates a deep clone of the Board 
 	public Object clone() throws CloneNotSupportedException{
 		Board temp = (Board) super.clone();
@@ -96,12 +117,13 @@ public class Board implements Cloneable{
 	}
 	//setSquare at x,y to be number n and return true if possible
 	public boolean setSquare(int x, int y, int n){
-		Set<Integer> lostOptions = grid[x][y].getOptions();
+		Set<Integer> lostOptions = new HashSet<Integer>();
+		lostOptions.addAll(grid[x][y].getOptions());
+		
 		if(grid[x][y].setNum(n)){
 			rows[x][n]=-1;
 			columns[y][n]=-1;
 			threeByThrees[findThreeByThree(x, y)][n]=-1;
-			
 			
 			updateCounts(x,y,lostOptions);
 			return true;
@@ -130,6 +152,27 @@ public class Board implements Cloneable{
 		return (x/3)*3 + y/3;
 	}
 	
+	//Print out current board with known values
+	public void printBoard(){
+		for(int i=0;i<9;i++){
+			for(int j=0;j<9;j++){
+				System.out.print(this.grid[i][j].getNum()+" ");
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+	}
+	
+	//Print out current board rows values for debugging purposes
+	public void printrows(){
+		for(int i=0;i<9;i++){
+			for(int j=1;j<=9;j++){
+				System.out.print(this.rows[i][j]);
+			}
+			System.out.println("");
+		}
+	}
+	
 	//Testing method
 //	public static void main(String[]args) throws CloneNotSupportedException{
 //		Board b1 = new Board();
@@ -137,12 +180,7 @@ public class Board implements Cloneable{
 //		b1.grid[6][8].setNum(8);
 //		System.out.println(b1.grid[0][0].getOptions());
 //		System.out.println(b2.grid[0][0].getOptions());
-//		for(int i=0;i<9;i++){
-//			for(int j=0;j<9;j++){
-//				System.out.print(b2.grid[i][j].getNum());
-//			}
-//			System.out.println("");
-//		}
+//		b2.printBoard();
 //		System.out.println("");
 //		for(int i=0;i<9;i++){
 //			for(int j=1;j<10;j++){
