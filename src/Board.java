@@ -9,6 +9,9 @@ public class Board implements Cloneable{
 	//Represents the 9 by 9 grid of squares
 	public Square [][] grid = new Square[9][9];
 	
+	//Number of Guesses
+	public int numberOfGuesses;
+	
 	//Set up a 2D array for number of squares for which a number is an option in each row/column, i.e. rows[1][2] queries number of 2 options in row 1, set to -1 if a row already has a finalized number of that number
 	public int[][] rows = new int[9][10];
 	public int[][] columns = new int[9][10];
@@ -53,6 +56,7 @@ public class Board implements Cloneable{
 				}
 			}
 		}
+		numberOfGuesses=0;
 	}
 	
 	//Creates a deep clone of the Board 
@@ -112,6 +116,8 @@ public class Board implements Cloneable{
 		temp.grid=tempGrid;
 		
 		temp.updateCounts(x,y,numberToBeRemoved);
+		
+		temp.numberOfGuesses++;
 		
 		return temp;
 	}
