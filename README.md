@@ -1,1 +1,21 @@
-This is an algorithm-based Sudoku solver that will always find at least one right solution if one exists. It's modular with respect to the algorithms, and the time complexity with respect to the number of algorithms is linear, assuming all algorithms have the same inherent complexity. The rest is TODO.
+## Java Sudoku Solver
+
+### Title 1
+
+```markdown
+Syntax highlighted code block
+
+# Header 1
+## Header 2
+### Header 3
+
+- Bulleted
+- List
+
+1. Numbered
+2. List
+
+**Bold** and _Italic_ and `Code` text
+
+[Link](url) and ![Image](src)
+```
