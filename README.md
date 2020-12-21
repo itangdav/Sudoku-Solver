@@ -10,4 +10,4 @@ After a point where no more digits can be placed, it goes through a set of algor
 Once it gets completely stuck, I have implemented an optimal branching algorithm, which finds the square with the least possibilities, and creates a deep copy of the current board with a guess for that square as well as pushing the current board onto a stack. If that guess turns out to be right, then we are done! If it leads to a contradiction, then we load up the previous board on the stack and remove that guess as a possibility. This algorithm is able to solve the famous 17 digit boards with an unique solution with only a maximum of 3 guesses. 
 
 ### Inputs
-I am planning on adding a Java Graphics UI someday, but for now, I have a main method at the bottom of the boards.java file where you can manually fill in the board into a 2D array as input. 
+I am planning on adding a Java Graphics UI someday, but for now, I have a main method at the bottom of the boards.java file where you can manually fill in the board into a 2D array as input.  
