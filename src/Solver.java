@@ -6,14 +6,14 @@ public class Solver {
 	Stack<Board> boardStates;
 	Board currBoard;
 	
-	public Solver(Board b) throws CloneNotSupportedException{
+	public Solver(Board b) throws CloneNotSupportedException {
 		//Construct new Solver by adding the cloned board
-		currBoard = (Board)b.clone();
+		currBoard = (Board) b.clone();
 		
 		boardStates = new Stack<Board>();
 	}
 	//returns if it is done or not
-	public boolean solveOneStep() throws CloneNotSupportedException{
+	public boolean solveOneStep() throws CloneNotSupportedException {
 		
 		//Update the Options Array
 		updateOptionsUtil();
@@ -28,26 +28,24 @@ public class Solver {
 		boolean done = true;
 		
 		//Check all single cells for contradictions or naked singles
-		
-		for(int i=0;i<9;i++){
-			for(int n=1;n<=9;n++){
-				if(currBoard.rows[i][n]==0||currBoard.columns[i][n]==0||currBoard.threeByThrees[i][n]==0){
+		for(int i = 0; i < 9; i++){
+			for(int n = 1; n <= 9; n++){
+				if(currBoard.rows[i][n] == 0 || currBoard.columns[i][n] == 0 || currBoard.threeByThrees[i][n] == 0){
 					guess = false;
 					fail = true;
 				}
 			}
 			
-			for(int j=0;j<9;j++){
-				if(currBoard.grid[i][j].getNum()==0 && currBoard.grid[i][j].getSetSize()==0){
+			for(int j = 0; j < 9; j++){
+				if(currBoard.grid[i][j].getNum() == 0 && currBoard.grid[i][j].getSetSize() == 0){
 					guess = false;
 					fail = true;
-				}
-				else if(currBoard.grid[i][j].getSetSize() ==1){
-					guess=false;
+				} else if(currBoard.grid[i][j].getSetSize() == 1){
+					guess = false;
 					currBoard.setSquare(i, j, currBoard.grid[i][j].getOptions().iterator().next());
 					currBoard.printBoard();
 				}
-				if(done && currBoard.grid[i][j].getNum()==0) {
+				if(done && currBoard.grid[i][j].getNum() == 0) {
 					done = false;
 				}
 			}
@@ -58,12 +56,10 @@ public class Solver {
 			if(this.singleInRow()){
 				guess = false;
 				currBoard.printBoard();
-			}
-			else if(this.singleInColumn()){
+			} else if(this.singleInColumn()){
 				guess = false;
 				currBoard.printBoard();
-			}
-			else if(this.singleInThreeByThree()){
+			} else if(this.singleInThreeByThree()){
 				guess = false;
 				currBoard.printBoard();
 			}
@@ -73,19 +69,18 @@ public class Solver {
 		//Make Guess
 		if(!done && guess){
 			int min = 10;
-			int x=-1,y=-1;
-			for(int i=0;i<9;i++){
-				for(int j=0;j<9;j++){
-					if(currBoard.grid[i][j].getNum()==0 && currBoard.grid[i][j].getSetSize()<min){
+			int x = -1, y = -1;
+			for(int i = 0; i < 9; i++){
+				for(int j = 0; j < 9; j++){
+					if(currBoard.grid[i][j].getNum() == 0 && currBoard.grid[i][j].getSetSize() < min){
 						min = currBoard.grid[i][j].getSetSize();
-						x=i;
-						y=j;
+						x = i;
+						y = j;
 					}
 				}
 			}
 			int numGuessed = currBoard.grid[x][y].getOptions().iterator().next();
-			
-			
+					
 			//Add new board into boardStates which we use if false, so we remove the guess as an option
 			Board tempBoard = (Board) currBoard.clone(x, y, numGuessed); 
 			boardStates.add(tempBoard);
@@ -94,17 +89,17 @@ public class Solver {
 			currBoard.setSquare(x, y, numGuessed);
 			currBoard.numberOfGuesses++;
 			currBoard.printBoard();
-			System.out.println("guess "+x+" "+y+" "+ numGuessed);
+			System.out.println("guess " + x + " " + y + " " + numGuessed);
 			
 		}
+		
 		//If it fails, we reset to last board state before guess
 		if(fail){
-			if(boardStates.size()>=1){
+			if(boardStates.size() >= 1){
 				currBoard = boardStates.pop();
-			}
-			else{
+			} else{
 				System.out.println("Impossible");
-				done=true;
+				done = true;
 			}
 		}
 		
@@ -112,11 +107,11 @@ public class Solver {
 	}
 	
 	//Update Options
-	private void updateOptionsUtil(){
-		for(int i=0;i<9;i++){
-			for(int j=0;j<9;j++){
-				for(int n=1;n<10;n++){
-					if(currBoard.grid[i][j].getOptions().contains(n)&&(currBoard.rows[i][n]==-1||currBoard.columns[j][n]==-1||currBoard.threeByThrees[currBoard.findThreeByThree(i, j)][n]==-1)){
+	private void updateOptionsUtil() {
+		for(int i = 0; i < 9; i++){
+			for(int j = 0; j < 9; j++){
+				for(int n = 1; n < 10; n++){
+					if(currBoard.grid[i][j].getOptions().contains(n) && (currBoard.rows[i][n] == -1 || currBoard.columns[j][n] == -1 || currBoard.threeByThrees[currBoard.findThreeByThree(i, j)][n] == -1)){
 						currBoard.grid[i][j].removeOne(n);
 						currBoard.updateCounts(i, j, n);
 					}
@@ -130,11 +125,11 @@ public class Solver {
 	//*****************************
 	
 	//Check if only single place number can go in row, return true if true
-	private boolean singleInRow(){
-		for(int i=0;i<9;i++){
-			for(int j=1;j<10;j++){
-				if(currBoard.rows[i][j]==1){
-					for(int y=0;y<9;y++){
+	private boolean singleInRow() {
+		for(int i = 0; i < 9; i++){
+			for(int j = 1; j < 10; j++){
+				if(currBoard.rows[i][j] == 1){
+					for(int y = 0; y < 9; y++){
 						if(currBoard.grid[i][y].getOptions().contains(j)){
 							currBoard.setSquare(i, y, j);
 							return true;
@@ -148,11 +143,11 @@ public class Solver {
 	}
 	
 	//Check for single in Column
-	private boolean singleInColumn(){
-		for(int i=0;i<9;i++){
-			for(int j=1;j<10;j++){
-				if(currBoard.columns[i][j]==1){
-					for(int x=0;x<9;x++){
+	private boolean singleInColumn() {
+		for(int i = 0; i < 9; i++){
+			for(int j = 1; j < 10; j++){
+				if(currBoard.columns[i][j] == 1){
+					for(int x = 0; x < 9; x++){
 						if(currBoard.grid[x][i].getOptions().contains(j)){
 							currBoard.setSquare(x, i, j);
 							return true;
@@ -166,12 +161,12 @@ public class Solver {
 	}
 	
 	//Check for single in Three by Three
-	private boolean singleInThreeByThree(){
-		for(int i=0;i<9;i++){
-			for(int j=1;j<10;j++){
-				if(currBoard.threeByThrees[i][j]==1){
-					for(int x=(i/3)*3;x<(i/3)*3+3;x++){
-						for(int y=(i%3)*3; y<(i%3)*3+3; y++){
+	private boolean singleInThreeByThree() {
+		for(int i = 0; i < 9; i++){
+			for(int j = 1; j < 10; j++){
+				if(currBoard.threeByThrees[i][j] == 1){
+					for(int x = (i / 3) * 3; x < (i / 3) * 3 + 3; x++){
+						for(int y = (i % 3) * 3; y < (i % 3) * 3 + 3; y++){
 							if(currBoard.grid[x][y].getOptions().contains(j)){
 								currBoard.setSquare(x, y, j);
 								return true;
@@ -191,7 +186,7 @@ public class Solver {
 	//*****************************
 	
 	//testing method
-	public static void main(String[] args) throws CloneNotSupportedException{
+	public static void main(String[] args) throws CloneNotSupportedException {
 		
 		
 		int [][] grid = {
@@ -209,12 +204,12 @@ public class Solver {
 		Board b = new Board(grid);
 		
 		Solver s = new Solver(b);
-		for(int i=0;i<450;i++){
+		for(int i = 0; i < 450; i++){
 
 			boolean done = s.solveOneStep();
 			
 			if(done){
-				i=450;
+				i = 450;
 				System.out.println("Done");
 				System.out.println("Number of guesses: " + s.currBoard.numberOfGuesses);
 			}
