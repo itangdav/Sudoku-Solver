@@ -14,6 +14,7 @@ There are 3 important files for this project:
 #### Square.java defines the square class which has the following properties
 1. finalNumber: the number of that square, which is 0 if it's still blank
 2. options: A set of possible valid finalNumbers this square can take, is empty if finalNumber is not 0.
+
 (All the functions should be self-explanatory based on its name and comments)
 
 #### Board.java defines the board class which has the following properties
@@ -22,12 +23,14 @@ There are 3 important files for this project:
 3. rows: a 2-d array where rows[i][j] represents the number of squares in row i (counting from the top, indexed starting at zero) has j as an option, note that j=0 is never used.
 4. columns: same as rows except for columns that are zero-indexed and starting from the left.
 5. threeByThrees: same as rows but for each three by three region of the grid which is zero indexed and starts from the top left and labelled in the way that we would read a book (towards the right and wrapping around to next line).
+
 (All the functions should be self-explanatory based on its name and comments)
 
 #### Solver.java defines the solver class which has teh following properties
 1. boardStates: a stack of boards that represent the "other branch" we could have head down. For example, when we guess a square is a 1, we push onto the stack a board where this square is not a 1 (remove 1 from the options) which allows for us to backtrack.
 2. currBoard: the current board that we are working on solving
 3. solveOneStep(): this is the function that solves one more step of the board by either making a guess or placing a number. First, it calls updateOptionsUtil() which is a utility function that updates the options sets of all the squares. Then, it checks all single cells for contradictions (no options left but finalNumber is 0) or naked singles (only one option left). As well, if a single cell doesn't have a finalNumber not equal to 0, we would set done (which is initialized as true) as false. Afterwards, if no contradictions or naked singles are found, we can run through a set of algorithms to try to solve for one of the squares. If these algorithms all fail, we have to make a guess, which finds the square with the least number of options and guesses one of these options. Now, lastly, if we actually got a contradiction, we would backtrack down into another branch and if there is no more backtracking possible, the board has no solutions so we would set done as true. This function returns the boolean done of whether the board is solved or has no solution.
+
 (All the other functions should be self-explanatory based on its name and comments)
 
 ### Documentation for Inputs
